@@ -1,0 +1,121 @@
+:root {
+    --intro-delay: 1s;
+    --intro-duration: 2s;
+    --intro-fade-in-duration: 1s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.motd {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    animation: fade-in var(--intro-fade-in-duration) 1 backwards calc(var(--intro-delay) + var(--intro-duration));
+}
+
+.TopMenu {
+    animation: fade-in var(--intro-fade-in-duration) 1 backwards calc(var(--intro-delay) + var(--intro-duration));
+}
+
+@property --bg-spacing {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 40px;
+}
+
+@property --bg-pos-y {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 50vh;
+}
+
+@property --bg-pos-x {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 50vw;
+}
+
+@keyframes background-waves {
+    from {
+        --bg-spacing: 40px;
+    }
+    to {
+        --bg-spacing: 60px;
+    }
+}
+
+@keyframes background-intro {
+    from {
+        --bg-pos-y: 50vh;
+        --bg-pos-x: 50vw;
+    }
+    to {
+        --bg-pos-y: 2rem;
+        --bg-pos-x: 3rem;
+    }
+}
+
+.background {
+    width: 100%;
+    min-height: 100vh;
+
+    background-color: #131111;
+    opacity: 1;
+    animation-name: background-waves, background-intro;
+    animation-duration: 20s, 2s;
+    animation-iteration-count: infinite, 1;
+    animation-timing-function: cubic-bezier(.5,.16,.5,.83), ease-in-out;
+    animation-direction: alternate, normal;
+    animation-delay: 0s, 1s;
+    animation-fill-mode: both;
+
+    background-image: repeating-radial-gradient(circle at var(--bg-pos-x) var(--bg-pos-y), transparent 0, #131111 var(--bg-spacing)), repeating-linear-gradient(#211f4855, #2a1f48);
+}
+
+@keyframes logo-intro {
+    from {
+        transform: translate(-50%, -50%) rotate(0turn);
+        width: 25vw;
+        height: 25vw;
+    }
+    to {
+        width: 4rem;
+        height: 4rem;
+
+        transform: translate(-50%, -38%)
+    }
+}
+
+@keyframes logo-hide {
+    from {
+        visibility: visible;
+    }
+    to {
+        visibility: collapse;
+    }
+}
+
+.intro-logo {
+    margin: 0;
+    position: absolute;
+    top: var(--bg-pos-y);
+    left: var(--bg-pos-x);
+    transform: translate(-50%, -38%);
+
+    width: 25vw;
+    height: 25vw;
+
+    animation: logo-intro var(--intro-duration) ease-in-out 1 both var(--intro-delay),
+        background-intro var(--intro-duration) ease-in-out 1 both var(--intro-delay),
+        logo-hide 0s step-end 1 both calc(var(--intro-duration) + var(--intro-delay) + var(--intro-fade-in-duration));
+}
